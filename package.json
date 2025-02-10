@@ -1,7 +1,7 @@
 {
   "name": "movie",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "backend/server.ts",
   "scripts": {
     "format": "prettier --write .",
     "start:dev": "npx tsx watch ./backend/src/server.ts"

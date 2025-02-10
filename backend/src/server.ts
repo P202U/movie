@@ -1,8 +1,8 @@
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
-import movieRoutes from '@routes/movieRoutes';
-import reviewRoutes from '@routes/reviewRoutes';
-import userRoutes from '@routes/userRoutes'
+import movieRoutes from '@routes/movie.routes';
+import reviewRoutes from '@routes/review.routes';
+import userRoutes from '@routes/user.routes'
 import path from 'path';
 import cors from 'cors';
 
