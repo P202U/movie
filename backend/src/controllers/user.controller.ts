@@ -55,7 +55,6 @@ const loginUser = async (req: Request, res: Response): Promise<any> => {
         try {
             return await argon2.verify(storedHash, password);
         } catch (error) {
-            console.error('Password verification failed:', error);
             return false;
         }
     }
@@ -78,7 +77,6 @@ const loginUser = async (req: Request, res: Response): Promise<any> => {
             return res.status(401).json({ error: 'Invalid email/username or password.' });
         }
     } catch (error) {
-        console.error('Login error:', error);
         return res.status(500).json({ error: 'Error logging in user' });
     }
 }

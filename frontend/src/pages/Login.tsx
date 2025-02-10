@@ -20,6 +20,7 @@ const Login: React.FC = () => {
 
       if (response.status === 200) {
         // localStorage.setItem('token', response.data.token);
+        alert(response.data.message);
         navigate('/');
       }
     } catch (err: unknown) {
@@ -59,7 +60,7 @@ const Login: React.FC = () => {
             required
           />
         </div>
-        {error && <p className="error">{error}</p>} {/* Show error message */}
+        {error && <p className="error">{error}</p>}
         <button type="submit">Login</button>
       </form>
     </div>

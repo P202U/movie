@@ -27,12 +27,13 @@ const Register: React.FC = () => {
       const response = await axios.post('/api/auth/register', formData);
 
       if (response.status === 200) {
+        alert(response.data.message);
         navigate('/');
       }
     } catch (err: unknown) {
-      if (axios.isAxiosError(err)) {
+      if (axios.isAxiosError(err) && err.response) {
         const errorMessage =
-          err.response?.data?.message || 'Invalid input data';
+          err.response?.data?.error || 'An unexpected error occurred';
         setError(errorMessage);
       } else {
         setError('An unexpected error occurred');
