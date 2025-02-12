@@ -1,6 +1,13 @@
 import { Request, Response } from 'express';
 import prisma from '@prismaClient';
 import argon2 from 'argon2';
+import jwt from 'jsonwebtoken';
+
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+  throw new Error('JWT_SECRET is not defined!');
+}
 
 const registerUser = async (req: Request, res: Response): Promise<any> => {
   const hashPassword = async (password: string) => {
@@ -51,34 +58,39 @@ const registerUser = async (req: Request, res: Response): Promise<any> => {
 
 
 const loginUser = async (req: Request, res: Response): Promise<any> => {
-    async function verifyPassword(storedHash: string, password: string) {
-        try {
-            return await argon2.verify(storedHash, password);
-        } catch (error) {
-            return false;
-        }
-    }
-
-    const { usernameOrEmail, password } = req.body;
-
+  async function verifyPassword(storedHash: string, password: string) {
     try {
-        const user = await prisma.user.findFirst({
-            where: {
-                OR: [
-                    { email: usernameOrEmail },
-                    { username: usernameOrEmail }
-                ]
-            }
-        });
-
-        if (user && await verifyPassword(user.password, password)) {
-            return res.json({ message: 'Login successful', user: user });
-        } else {
-            return res.status(401).json({ error: 'Invalid email/username or password.' });
-        }
+      return await argon2.verify(storedHash, password);
     } catch (error) {
-        return res.status(500).json({ error: 'Error logging in user' });
+      return false;
     }
+  }
+
+  const { usernameOrEmail, password } = req.body;
+
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { email: usernameOrEmail },
+          { username: usernameOrEmail }
+        ]
+      }
+    });
+
+    if (user && await verifyPassword(user.password, password)) {
+      const token = jwt.sign(
+        { userId: user.id, username: user.username, email: user.email, role: user.role },
+        JWT_SECRET,
+        { expiresIn: '1h' }
+      );
+      return res.json({ message: 'Login successful', user: user, token: token });
+    } else {
+      return res.status(401).json({ error: 'Invalid email/username or password.' });
+    }
+  } catch (error) {
+    return res.status(500).json({ error: 'Error logging in user' });
+  }
 }
 
 

@@ -2,7 +2,8 @@ import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import movieRoutes from '@routes/movie.routes';
 import reviewRoutes from '@routes/review.routes';
-import userRoutes from '@routes/user.routes'
+import userRoutes from '@routes/user.routes';
+import { authenticateJWT } from '@middleware/jwtAuth.middleware';
 import path from 'path';
 import cors from 'cors';
 
@@ -15,12 +16,14 @@ const port = process.env.PORT || 5000;
 const __dirname = path.resolve();
 
 app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
-// Register Routes
-app.use('/api/movies', movieRoutes);
-app.use('/api/reviews', reviewRoutes);
+// Routes
+app.use('/api/movies', authenticateJWT, movieRoutes);
+app.use('/api/reviews', authenticateJWT, reviewRoutes);
 app.use('/api/auth', userRoutes);
 
+// Production
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../../frontend/dist')));
 
