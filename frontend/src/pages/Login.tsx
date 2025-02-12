@@ -19,7 +19,7 @@ const Login: React.FC = () => {
       });
 
       if (response.status === 200) {
-        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('jwt_token', response.data.token);
 
         alert(response.data.message);
         navigate('/');

@@ -1,7 +1,7 @@
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
 import { Request, Response, NextFunction } from "express";
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET: Secret = process.env.JWT_SECRET as string;
 
 if (!JWT_SECRET) {
     throw new Error('JWT_SECRET is not defined!');
