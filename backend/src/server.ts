@@ -6,20 +6,25 @@ import userRoutes from '@routes/user.routes';
 import { authenticateJWT } from '@middleware/jwtAuth.middleware';
 import path from 'path';
 import cors from 'cors';
+import seedAdminUser from 'seedAdminUser';
 
 dotenv.config();
 
 const app = express();
+
+// Initialize database with an admin user on startup
+seedAdminUser();
+
 app.use(cors());
 
 const port = process.env.PORT || 5000;
 const __dirname = path.resolve();
 
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use('/api/movies', authenticateJWT, movieRoutes);
+app.use('/api/movies', movieRoutes);
 app.use('/api/reviews', authenticateJWT, reviewRoutes);
 app.use('/api/auth', userRoutes);
 

@@ -16,7 +16,6 @@ datasource db {
 enum RequestStatus {
   PENDING
   APPROVED
-  DENIED
 }
 
 enum Role {
@@ -25,59 +24,44 @@ enum Role {
 }
 
 model User {
-  id           String          @id @default(uuid())
-  username     String          @unique
-  email        String          @unique
-  password     String
-  role         Role            @default(USER)
-  createdAt    DateTime        @default(now())
-  updatedAt    DateTime        @updatedAt
-  reviews      Review[] // admin only
-  ratings      Rating[] // by users for movies
-  requests     ReviewRequest[] // by the user for admin reviews
-  reviewRating ReviewRating[] // by users for reviews
+  id        String          @id @default(uuid())
+  username  String          @unique
+  email     String          @unique
+  password  String
+  role      Role            @default(USER)
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  requests  ReviewRequest[] // by the user for admin reviews
+  ratings   Rating?
+  comments  Comment[]
 
   @@index([email])
 }
 
 model Movie {
-  id            String          @id @default(uuid())
-  title         String
-  description   String?
-  imgUrl        String          @default("")
-  reviews       Review[] // by admin
-  ratings       Rating[] // by users
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  reviewRequest ReviewRequest[] // from users for admin reviews
+  id          String    @id @default(uuid())
+  title       String
+  releaseYear String
+  description String
+  category    String
+  genre       String[]  @default([])
+  imgUrl      String
+  review      String
+  adminRating Float     @default(0)
+  ratings     Rating[]
+  comments    Comment[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   @@index([title])
-}
-
-// by admins for movies
-model Review {
-  id        String   @id @default(uuid())
-  movieId   String
-  userId    String
-  content   String
-  rating    Float // rating for the review (admin’s rating of the movie)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  movie        Movie          @relation(fields: [movieId], references: [id])
-  user         User           @relation(fields: [userId], references: [id])
-  reviewRating ReviewRating[]
-
-  @@index([movieId])
-  @@index([userId])
 }
 
 // storing ratings that users give to movies
 model Rating {
   id        String   @id @default(uuid())
-  userId    String
-  movieId   String
-  value     String
+  userId    String   @unique
+  movieId   String   @unique
+  value     Float
   createdAt DateTime @default(now())
 
   user  User  @relation(fields: [userId], references: [id])
@@ -88,32 +72,31 @@ model Rating {
   @@index([movieId])
 }
 
-// storing ratings that users give to reviews
-model ReviewRating {
-  id        String   @id @default(uuid())
-  userId    String
-  reviewId  String
-  value     String
-  createdAt DateTime @default(now())
-
-  user   User   @relation(fields: [userId], references: [id])
-  review Review @relation(fields: [reviewId], references: [id])
-
-  @@unique([userId, reviewId]) // Ensure a user can rate a review only once
-  @@index([userId])
-  @@index([reviewId])
-}
-
 // storing review requests made by users for movies
 model ReviewRequest {
-  id        String        @id @default(uuid())
-  userId    String? // Optional userId for unauthenticated users
-  movieId   String
-  status    RequestStatus @default(PENDING)
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
+  id          String        @id @default(uuid())
+  userId      String? // Optional userId for unauthenticated users
+  movieName   String
+  releaseYear String
+  status      RequestStatus @default(PENDING)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 
-  user  User? @relation(fields: [userId], references: [id])
+  user User? @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+// Comments by users on a movie
+model Comment {
+  id        String   @id @default(uuid())
+  userId    String
+  movieId   String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user  User  @relation(fields: [userId], references: [id])
   movie Movie @relation(fields: [movieId], references: [id])
 
   @@index([movieId])

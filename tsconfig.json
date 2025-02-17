@@ -14,7 +14,6 @@
       "@controllers/*": ["controllers/*"],
       "@routes/*": ["routes/*"],
       "@middleware/*": ["middleware/*"],
-      "@utils/*": ["utils/*"],
       "@prismaClient": ["prismaClient.ts"]
     }
   },

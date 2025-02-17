@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import axios from 'axios';
 import '../index.css';
 
@@ -19,10 +19,14 @@ const Login: React.FC = () => {
       });
 
       if (response.status === 200) {
-        localStorage.setItem('jwt_token', response.data.token);
+        localStorage.setItem('jwt-token', response.data.token);
 
         alert(response.data.message);
-        navigate('/');
+        if (response.data.user.role == 'ADMIN') {
+          navigate('/admin-dashboard');
+        } else {
+          navigate('/');
+        }
       }
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {

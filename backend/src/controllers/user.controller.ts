@@ -80,7 +80,7 @@ const loginUser = async (req: Request, res: Response): Promise<any> => {
 
     if (user && await verifyPassword(user.password, password)) {
       const token = jwt.sign(
-        { userId: user.id, username: user.username, email: user.email, role: user.role },
+        { id: user.id, username: user.username, email: user.email, role: user.role },
         JWT_SECRET,
         { expiresIn: '1h' }
       );
