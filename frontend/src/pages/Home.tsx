@@ -70,6 +70,7 @@ const Home: React.FC = () => {
         {movies.map(movie => (
           <MovieComponent
             key={movie.id}
+            id={movie.id}
             title={movie.title}
             description={movie.description}
             imgUrl={movie.imgUrl}

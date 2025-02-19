@@ -22,6 +22,9 @@ const getMovies = async (req: Request, res: Response): Promise<any> => {
                 updatedAt: true,
                 ratings: true,  // Including ratings to calculate average
             },
+            orderBy: {
+              createdAt: 'desc',
+            }
         });
 
         // Calculate the average user rating for each movie
@@ -64,7 +67,7 @@ const getMovieDetails = async (req: Request, res: Response): Promise<any> => {
         const movie = await prisma.movie.findUnique({
             where: { id: movieId },
             include: {
-                ratings: true, // Fetch user ratings
+                ratings: true, 
             },
         });
 
@@ -126,9 +129,6 @@ const createMovie = async (req: Request, res: Response): Promise<any> => {
     const rating = adminRating ? Math.round(parseFloat(adminRating) * 10) / 10 : 0;
   
     try {
-      // Log the request body for debugging
-      console.log('Request body:', req.body);
-  
       // Create a new movie
       const newMovie = await prisma.movie.create({
         data: {
@@ -137,8 +137,8 @@ const createMovie = async (req: Request, res: Response): Promise<any> => {
           imgUrl,
           releaseYear,
           category,
-          genre, // Array of strings (genres)
-          adminRating: rating, // Pass the correctly converted rating
+          genre, 
+          adminRating: rating, 
           review,
         },
       });

@@ -1,18 +1,13 @@
 import React from 'react';
-import { useNavigate } from 'react-router';
 
-const LogoutButton: React.FC = () => {
-  const navigate = useNavigate();
+interface LogoutButtonProps {
+  onLogout: () => void;
+}
 
-  const handleLogout = () => {
-    localStorage.removeItem('jwt-token');
-
-    navigate('/auth/login');
-  };
-
+const LogoutButton: React.FC<LogoutButtonProps> = ({ onLogout }) => {
   return (
     <button
-      onClick={handleLogout}
+      onClick={onLogout}
       className="rounded-md bg-red-500 p-2 text-white hover:bg-red-600"
     >
       Logout

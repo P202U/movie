@@ -56,6 +56,16 @@ const AddMovie: React.FC = () => {
 
       alert('Movie added successfully');
       console.log(movieResponse.data);
+
+      // Clear form only after successful movie addition
+      setTitle('');
+      setDescription('');
+      setImgUrl('');
+      setReleaseYear('');
+      setCategory('');
+      setReview('');
+      setAdminRating('');
+      setGenre('');
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         console.error('Error adding movie:', error.response.data.error);
@@ -68,17 +78,22 @@ const AddMovie: React.FC = () => {
   };
 
   return (
-    <div className="mx-auto mt-10 max-w-xl rounded-lg bg-white p-6 shadow-lg">
-      <h2 className="mb-6 text-center text-2xl font-bold">Add New Movie</h2>
+    <div className="mx-auto mt-10 max-w-xl rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800 dark:text-white">
+      <h2 className="mb-6 text-center text-2xl font-bold text-gray-800 dark:text-white">
+        Add New Movie
+      </h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label htmlFor="title" className="block text-white">
+          <label
+            htmlFor="title"
+            className="block text-gray-700 dark:text-gray-300"
+          >
             Title
           </label>
           <input
             id="title"
             type="text"
-            className="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            className="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
             placeholder="Enter movie title"
             value={title}
             onChange={e => setTitle(e.target.value)}
@@ -86,12 +101,15 @@ const AddMovie: React.FC = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="description" className="block text-white">
+          <label
+            htmlFor="description"
+            className="block text-gray-700 dark:text-gray-300"
+          >
             Description
           </label>
           <textarea
             id="description"
-            className="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            className="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
             placeholder="Enter movie description"
             value={description}
             onChange={e => setDescription(e.target.value)}
@@ -99,13 +117,16 @@ const AddMovie: React.FC = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="releaseYear" className="block text-white">
+          <label
+            htmlFor="releaseYear"
+            className="block text-gray-700 dark:text-gray-300"
+          >
             Release Date
           </label>
           <input
             id="releaseYear"
             type="date"
-            className="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            className="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
             placeholder="Enter release date"
             value={releaseYear}
             onChange={e => setReleaseYear(e.target.value)}
@@ -113,13 +134,16 @@ const AddMovie: React.FC = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="category" className="block text-white">
+          <label
+            htmlFor="category"
+            className="block text-gray-700 dark:text-gray-300"
+          >
             Category
           </label>
           <input
             id="category"
             type="text"
-            className="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            className="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
             placeholder="Enter movie category"
             value={category}
             onChange={e => setCategory(e.target.value)}
@@ -127,13 +151,16 @@ const AddMovie: React.FC = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="genre" className="block text-white">
+          <label
+            htmlFor="genre"
+            className="block text-gray-700 dark:text-gray-300"
+          >
             Genre
           </label>
           <input
             id="genre"
             type="text"
-            className="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            className="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
             placeholder="Enter movie genres (comma-separated)"
             value={genre}
             onChange={e => setGenre(e.target.value)}
@@ -141,13 +168,16 @@ const AddMovie: React.FC = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="imgUrl" className="block text-white">
+          <label
+            htmlFor="imgUrl"
+            className="block text-gray-700 dark:text-gray-300"
+          >
             Image URL
           </label>
           <input
             id="imgUrl"
             type="text"
-            className="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            className="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
             placeholder="Enter image URL"
             value={imgUrl}
             onChange={e => setImgUrl(e.target.value)}
@@ -155,12 +185,15 @@ const AddMovie: React.FC = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="review" className="block text-white">
+          <label
+            htmlFor="review"
+            className="block text-gray-700 dark:text-gray-300"
+          >
             Review
           </label>
           <textarea
             id="review"
-            className="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            className="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
             placeholder="Enter movie review"
             value={review}
             onChange={e => setReview(e.target.value)}
@@ -168,12 +201,15 @@ const AddMovie: React.FC = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="adminRating" className="block text-white">
+          <label
+            htmlFor="adminRating"
+            className="block text-gray-700 dark:text-gray-300"
+          >
             Rating
           </label>
           <textarea
             id="adminRating"
-            className="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            className="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
             placeholder="Enter movie rating"
             value={adminRating}
             onChange={e => setAdminRating(e.target.value)}
@@ -182,7 +218,7 @@ const AddMovie: React.FC = () => {
 
         <button
           type="submit"
-          className="w-full rounded-md bg-blue-500 py-2 text-white transition duration-300 hover:bg-blue-600 focus:ring-2 focus:ring-blue-500"
+          className="w-full rounded-md bg-blue-500 py-2 text-white transition duration-300 hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 dark:bg-blue-600 dark:hover:bg-blue-700"
         >
           Submit Movie
         </button>
