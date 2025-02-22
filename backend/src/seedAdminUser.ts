@@ -4,7 +4,7 @@ import argon2 from 'argon2';
 const seedAdminUser = async () => {
   const adminEmail = process.env.ADMIN_EMAIL || 'admin@example.com';
   const adminUsername = process.env.ADMIN_USERNAME || 'admin';
-  const adminPassword = process.env.ADMIN_PASSWORD || '987'; // Predefined password
+  const adminPassword = process.env.ADMIN_PASSWORD || '987'; 
 
   try {
     // Check if there's already an admin user
@@ -27,7 +27,7 @@ const seedAdminUser = async () => {
         username: adminUsername,
         email: adminEmail,
         password: hashedPassword,
-        role: 'ADMIN', // Automatically assigning 'ADMIN' role
+        role: 'ADMIN', 
       },
     });
 
