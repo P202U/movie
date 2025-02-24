@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import movieRoutes from '@routes/movie.routes';
 import userRoutes from '@routes/user.routes';
 import ratingRoutes from '@routes/rating.routes';
+import comments from '@routes/comments.routes'
 import path from 'path';
 import cors from 'cors';
 import seedAdminUser from 'seedAdminUser';
@@ -26,6 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', userRoutes);
 app.use('/api/movies', movieRoutes);
 app.use('/api/rating', ratingRoutes);
+app.use('/api/coments', comments);
 
 // Production
 if (process.env.NODE_ENV === 'production') {

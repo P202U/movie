@@ -92,7 +92,7 @@ const getMovieDetails = async (req: Request, res: Response): Promise<any> => {
       const userRatingData = await prisma.rating.findUnique({
         where: {
           userId_movieId: {
-            userId: String(userId),  // Ensure userId is a string
+            userId: String(userId),  
             movieId,
           },
         },

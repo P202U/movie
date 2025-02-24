@@ -95,10 +95,16 @@ model Comment {
   content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  deleted   Boolean  @default(false)
+  parentId  String?
 
-  user  User  @relation(fields: [userId], references: [id])
-  movie Movie @relation(fields: [movieId], references: [id])
+  user    User      @relation(fields: [userId], references: [id])
+  movie   Movie     @relation(fields: [movieId], references: [id])
+  parent  Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  replies Comment[] @relation("CommentReplies")
 
   @@index([movieId])
   @@index([userId])
+  @@index([parentId])
+  @@index([createdAt])
 }
