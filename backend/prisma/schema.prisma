@@ -31,7 +31,7 @@ model User {
   role      Role            @default(USER)
   createdAt DateTime        @default(now())
   updatedAt DateTime        @updatedAt
-  requests  ReviewRequest[] // by the user for admin reviews
+  requests  ReviewRequest[] // by  the user for admin reviews
   ratings   Rating?
   comments  Comment[]
 

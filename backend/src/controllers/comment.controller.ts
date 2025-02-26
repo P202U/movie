@@ -1,5 +1,5 @@
 import prisma from "@prismaClient";
-import { Request, Response } from "express";
+import { Request, Response } from "express-serve-static-core";
 
 interface commentRequestBody {
     userId: string;
@@ -21,19 +21,19 @@ const createComment = async (req: Request<{}, {}, commentRequestBody>, res: Resp
             }
         })
 
-        res.status(201).json(newComment);
+        return res.status(201).json(newComment);
     } catch (error: unknown) {
         if (error instanceof Error) {
             console.error("Error:", error.message);
-            res.status(500).json({ message: "Error creating comment", error: error.message });
+            return res.status(500).json({ message: "Error creating comment", error: error.message });
         } else {
             console.error("An unknown error occurred.");
-            res.status(500).json({ message: "An unknown error occurred" });
+            return res.status(500).json({ message: "An unknown error occurred" });
         }
     }
 }
 
-const getMovieComments = async (req: Request, res: Response): Promise<any> => {
+const getComments = async (req: Request, res: Response): Promise<any> => {
     const { movieId } = req.params;
   
     try {
@@ -55,17 +55,17 @@ const getMovieComments = async (req: Request, res: Response): Promise<any> => {
         },
       });
   
-      res.json(comments);
+      return res.json(comments);
     } catch (error: unknown) {
         if (error instanceof Error) {
             console.error("Error:", error.message);
-            res.status(500).json({ message: "Error creating comment", error: error.message });
+            return res.status(500).json({ message: "Error creating comment", error: error.message });
         } else {
             console.error("An unknown error occurred.");
-            res.status(500).json({ message: "An unknown error occurred" });
+            return res.status(500).json({ message: "An unknown error occurred" });
         }
     }
   };
   
 
-export { createComment, getMovieComments };
+export { createComment, getComments };
