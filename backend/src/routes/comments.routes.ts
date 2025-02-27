@@ -4,8 +4,8 @@ import { authenticateJWT } from '@middleware/jwtAuth.middleware';
 
 const router = express.Router();
 
+router.get('/get-comments', getComments);
 router.post('/create-comment', authenticateJWT, createComment);
-router.get('/:movieId', authenticateJWT, getComments);
 router.delete('/:commentId', authenticateJWT, deleteComment);
 router.patch('/:commentId', authenticateJWT, editComment);
 

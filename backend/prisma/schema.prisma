@@ -60,14 +60,15 @@ model Movie {
 model Rating {
   id        String   @id @default(uuid())
   userId    String   @unique
-  movieId   String   @unique
+  movieId   String
   value     Float
   createdAt DateTime @default(now())
 
   user  User  @relation(fields: [userId], references: [id])
   movie Movie @relation(fields: [movieId], references: [id])
 
-  @@unique([userId, movieId]) // Ensure a user can rate a movie only once
+  // Composite unique constraint: ensures a user can rate a movie only once
+  @@unique([userId, movieId])
   @@index([userId])
   @@index([movieId])
 }

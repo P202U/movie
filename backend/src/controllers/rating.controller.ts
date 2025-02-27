@@ -46,4 +46,5 @@ const addUserRating = async (req: Request, res: Response): Promise<any> => {
     }
 }
 
+
 export { addUserRating };

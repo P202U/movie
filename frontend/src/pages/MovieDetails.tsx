@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router';
 import axios from 'axios';
 import { getUserId } from '@utils/getUserId';
 import { getAuthHeaders } from '@utils/getToken';
+import CommentsList from '@components/CommentsList';
 
 interface Movie {
   id: string;
@@ -222,6 +223,9 @@ const MovieDetail: React.FC<MovieDetailProps> = ({ darkMode }) => {
                   </button>
                 </div>
               )}
+
+              {/* Commnents on a movie */}
+              {movieId && <CommentsList movieId={movieId} />}
             </div>
           </div>
         </div>

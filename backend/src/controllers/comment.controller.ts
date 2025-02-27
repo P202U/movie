@@ -33,8 +33,13 @@ const createComment = async (req: Request<{}, {}, commentRequestBody>, res: Resp
   }
 }
 
+
 const getComments = async (req: Request, res: Response): Promise<any> => {
-  const { movieId } = req.params;
+  const movieId = req.query.movieId as string;
+
+  if (!movieId) {
+    return res.status(400).json({ message: "Movie ID is required." });
+  }
 
   try {
     const comments = await prisma.comment.findMany({
@@ -43,10 +48,18 @@ const getComments = async (req: Request, res: Response): Promise<any> => {
         parentId: null,
       },
       include: {
-        user: true,
+        user: {
+          select: {
+            username: true,
+          },
+        },
         replies: {
           include: {
-            user: true,
+            user: {
+              select: {
+                username: true,
+              },
+            },
           },
         },
       },
@@ -55,17 +68,18 @@ const getComments = async (req: Request, res: Response): Promise<any> => {
       },
     });
 
-    return res.json({ message: 'Comments succesfully retrived', comments });
+    return res.json({ message: 'Comments successfully retrieved', comments });
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error("Error:", error.message);
-      return res.status(500).json({ message: "Error creating comment", error: error.message });
+      return res.status(500).json({ message: "Error retrieving comments", error: error.message });
     } else {
       console.error("An unknown error occurred.");
       return res.status(500).json({ message: "An unknown error occurred" });
     }
   }
 };
+
 
 const deleteComment = async (req: Request, res: Response): Promise<any> => {
   const { commentId } = req.params;
@@ -79,11 +93,11 @@ const deleteComment = async (req: Request, res: Response): Promise<any> => {
 }
 
 const editComment = async (req: Request, res: Response): Promise<any> => {
-  const {commentId, content} = req.body;
+  const { commentId, content } = req.body;
 
   const editedComment = await prisma.comment.update({
-    where: {id: commentId},
-    data: {content: content}
+    where: { id: commentId },
+    data: { content: content }
   })
 
   return res.json(editedComment);
